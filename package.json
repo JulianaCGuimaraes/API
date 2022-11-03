@@ -1,0 +1,19 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "CRUD para a cadeira de mobile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulianaCGuimaraes/API.git"
+  },
+  "author": "Juliana Guimarães",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JulianaCGuimaraes/API/issues"
+  },
+  "homepage": "https://github.com/JulianaCGuimaraes/API#readme"
+}
