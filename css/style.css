@@ -20,8 +20,7 @@ header{
     padding: 30px;
     background: linear-gradient(to right, 
                 rgb(14, 225, 236) ,
-                rgb(129, 13, 223)),
-                url(../img/guitar-1.jpg);
+                rgb(129, 13, 223));
     height: 90vh;
     width: 100vw;
     border: none;
@@ -62,7 +61,7 @@ button{
     width: 100px;
     max-width: 100%;
     /* height: 40px; */
-    background: #9E2092;
+    background: #d306bf;
     color: white;
     border-radius: 50px;
     border: none;
@@ -131,7 +130,7 @@ li{
     left: -20px;
     bottom: -4px;
     height: 3px;
-    background: rgb(12, 147, 100);
+    background: rgb(14, 225, 236) ;
     display: inline-block;
 }
 .song-list li div{
@@ -140,7 +139,7 @@ li{
 
 .song-list li span{
     float: right;
-    background-color: #9E2092;
+    background-color: #d306bf;
     border: 0;
     font-size: 12px;
     border-radius: 10px;
@@ -156,7 +155,7 @@ li{
     border: 0;
     font-size: 14px;
     border-radius: 10px;
-    color: rgb(199, 193, 193);
+    color: rgb(255, 255, 255);
     cursor: pointer;
     font-weight: 400;
     padding: 6px 20px;
