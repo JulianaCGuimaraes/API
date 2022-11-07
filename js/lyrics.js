@@ -1,96 +1,31 @@
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var path = require('path');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
-const form = document.getElementById('form')
-const search = document.getElementById('search')
-const result = document.getElementById('result')
-gapi.load("client", loadClient);
- 
-function loadClient() {
-    gapi.client.setApiKey("AIzaSyCXd8-DzhjLSwKvOTPJzFJkZHiKvsPNAJs");
-    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
-        .then(function() { console.log("GAPI client loaded for API"); },
-                function(err) { console.error("Error loading GAPI client for API", err); });
-};
-// Make sure the client is loaded before calling this method.
+app.get('/', function(request, response) {
+    response.sendFile(path.join(__dirname, + '/index.html'))
+});
 
+app.post('/auth', function(request, response) {
+    var title = request.body.title;
+    var artist = request.body.artist;
 
-/// api URL ///
-const apiURL = 'https://api.lyrics.ovh';
-
-form.addEventListener('submit', e=> {
-    e.preventDefault();
-    searchValue = search.value.trim();
-
-    if(!searchValue){
-        alert("There is nothing to search")
+const getLyrics = require ('./getLyrics')
+const getSong = require('./getSong')
+const options ={
+        apiKey:'6GLWW4-SEQJ4mJCMZaQSE3bEEwDMQ3RGRdyAnKHWb5EijepTpU-zvSwGvbIrq_Om',
+        title: title,
+        artist: artist,
+        optimizeQuery: true
     }
-    else{ 
-        searchSong(searchValue)
-    }
-})
-
-// Key up event listner
-const searchOnKeyUp =() =>{
-    searchValue = search.value.trim();
-    searchSong(searchValue)
-}
-//search song 
-async function searchSong(searchValue){
-    const searchResult = await fetch(`${apiURL}/suggest/${searchValue}`)
-    const data = await searchResult.json();
-
-    // console.log(finaldata)
-    showData(data);
-}
-
-//display final result in DO
-function showData(data){
-  
-    result.innerHTML = `
-   
-    <ul class="song-list">
-      ${data.data
-        .map(song=> `<li>
-                    <div>
-                        <strong>${song.artist.name}</strong> -${song.title} 
-                    </div>
-                    <span data-artist="${song.artist.name}" data-songtitle="${song.title}"> get lyrics</span>
-                </li>`
-        )
-        .join('')}
-    </ul>
-  `;
-  document.getElementById('video').innerHTML = ''
-
-
-}
-
-
-
-
-//event listener in get lyrics button
-result.addEventListener('click', e=>{
-    const clickedElement = e.target;
-
-    //checking clicked elemet is button or not
-    if (clickedElement.tagName === 'SPAN'){
-        const artist = clickedElement.getAttribute('data-artist');
-        const songTitle = clickedElement.getAttribute('data-songtitle');
-        
-        getLyrics(artist, songTitle)
-    }
-})
-
-// Get lyrics for song
-async function getLyrics(artist, songTitle) {
-  
-    const res = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
-
-    const data = await res.json();
-    const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
-    result.innerHTML = ` 
-    <h4 style="margin-bottom:30px;"><strong>${artist}</strong> - ${songTitle}</h4><ul>
-    <div data-artist="${artist}" data-songtitle="${songTitle}"> get lyrics</div>
-    <p style="margin-top:20px;">${lyrics}</p>
-`    
     
-}
+getLyrics(options).then((lyrics)=>console.log(lyrics));
+getSong(options).then((song)=> {
+    const lyric = song.lyrics
+    response.send(`${lyric}`)
+});
+});
+app.listen(5001);
